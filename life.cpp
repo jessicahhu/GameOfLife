@@ -46,7 +46,12 @@ Grid<char> loadBoard(ifstream &ifs) {
  * The printBoard function prints the board to the screen
  */
 void printBoard(Grid<char> gameboard) {
-    // TODO: Your code here
+    for (int r = 0; r < gameboard.numRows(); r++) {
+        for (int c = 0; c < gameboard.numCols(); c++) {
+            cout << gameboard[r][c];
+        }
+        cout << endl;
+    }
 }
 
 /**
