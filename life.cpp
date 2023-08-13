@@ -26,6 +26,15 @@ using namespace std;
  */
 void populateGrid(Grid<char> &gameboard, ifstream &ifs) {
     // TODO: Your code here
+    string temp;
+
+    while(getLine(ifs, temp)){
+        int currRow = 0;
+        for(int i = 0; i<temp.length(); i++){
+            grid.set(currRow, i, temp[i]);
+        }
+        currRow++;
+    }
 }
 
 /**
@@ -39,7 +48,20 @@ void populateGrid(Grid<char> &gameboard, ifstream &ifs) {
  */
 Grid<char> loadBoard(ifstream &ifs) {
     // TODO: Your code here (you will change the return value)
-    return {{(char)randomInteger(65, 90), (char)randomInteger(65, 90)}};
+    string rowsStr;
+    string colsStr;
+
+    getLine(ifs, rowsStr);
+    getLine(ifs, colsStr);
+
+    int rows = stoi(rowsStr);
+    int cols = stoi(colsStr);
+
+    Grid<char> gameboard(rows, cols);
+
+    populateGrid(gameboard, ifs);
+
+    return gameboard;
 }
 
 /**
