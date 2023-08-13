@@ -83,17 +83,9 @@ void printBoard(Grid<char> gameboard) {
  *
  * Returns the neighbor count
  */
-bool isRValid(Grid<char> gameboard, int r) {
-    if(r <= gameboard.numRows() - 1) {
-        if(r >= 0)
-            return true;
-    }
-    return false;
-}
-
-bool isCValid(Grid<char> gameboard, int c) {
-    if(c <= gameboard.numCols() - 1) {
-        if(c >= 0)
+bool isValid(int r, int c, Grid<char> gameboard) {
+    if(r <= gameboard.numRows() - 1 && c <= gameboard.numCols() - 1) {
+        if(r >= 0 && c >= 0)
             return true;
     }
     return false;
@@ -104,21 +96,12 @@ int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
     for(int r = row-1;r<=row+1;r++) {
         for(int c = col-1; c<=col+1;c++) {
             if(wrap) {
-                if (isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[r][c] == 'X') {
-                    myNeighbors++;
-                }
-                else if (isRValid(gameboard, r) && !isCValid(gameboard, c) && gameboard[r][0] == 'X') {
-                    myNeighbors++;
-                }
-                else if (!isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[0][c] == 'X') {
-                    myNeighbors++;
-                }
-                else if (!isRValid(gameboard, r) && !isCValid(gameboard, c) && gameboard[0][0] == 'X') {
+                if (gameboard[r % gameboard.numRows()][c % gameboard.numCols()]) {
                     myNeighbors++;
                 }
             }
             else {
-                if (isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[r][c] == 'X') {
+                if (isValid(r, c, gameboard) && gameboard[r][c] == 'X') {
                     myNeighbors++;
                 }
             }
