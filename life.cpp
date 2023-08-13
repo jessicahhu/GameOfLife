@@ -120,7 +120,7 @@ int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
                 }
             }
             else {
-                if (isRValid(gameboard, r) & isCValid(gameboard, c) & gameboard[r][c] == 'X') {
+                if (isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[r][c] == 'X') {
                     myNeighbors++;
                 }
             }
