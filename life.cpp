@@ -120,7 +120,24 @@ int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
  *
  */
 void tick(Grid<char> gameboard, bool wrap) {
-
+    Grid<char> tempboard(gameboard.numRows(), gameboard.numCols());
+    for (int r = 0; r < gameboard.numRows(); r++) {
+        for (int c = 0; c < gameboard.numCols(); c++) {
+            if (countNeighbors(gameboard, r, c, wrap) <= 1) {
+                tempboard[r][c] = '-';
+            }
+            else if (countNeighbors(gameboard, r, c, wrap) == 2) {
+                tempboard[r][c] = gameboard [r][c];
+            }
+            else if (countNeighbors(gameboard, r, c, wrap) == 3) {
+                tempboard[r][c] = 'X';
+            }
+            else {
+                tempboard[r][c] = '-';
+            }
+        }
+    }
+    gameboard = tempboard;
 }
 
 // You should have more functions here
