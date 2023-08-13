@@ -143,33 +143,13 @@ void tick(Grid<char> gameboard, bool wrap) {
 // You should have more functions here
 
 int main() {
-    int main() {
     if (runSimpleTests(SELECTED_TESTS)) {
         return 0;
     }
-    string myFunc = "";
-    int numFrames = 0;
-    cout << "a)nimate, t)ick, q)uit?";
-    cin >> toLowerCase(myFunc);
-    if (myFunc == "a") {
-        cout << "How many frames:";
-        cin >> numFrames;
-        for (int i = 0; i < numFrames; i++) {
-            //tick();
-        }
-    }
-    else if (myFunc == "t") {
+    // TODO: Finish the game of life!
 
-    }
-    else if (myFunc == "q") {
-        cout << "Have a nice Life!" << endl;
-        return 0;
-    }
-    else {
-        cout << "a)nimate, t)ick, q)uit?";
-        cin >> toLowerCase(myFunc);
-    }
-}
+    cout << "Have a nice Life!" << endl;
+    return 0;
 }
 
 // used for creating tests
