@@ -63,7 +63,6 @@ void printBoard(Grid<char> gameboard) {
  * Returns the neighbor count
  */
 int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
-    int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
     int myNeighbors = 0;
     for(int r = row-1;r<=row+1;r++) {
         for(int c = col-1; c<=col+1;c++) {
