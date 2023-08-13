@@ -30,11 +30,9 @@ void populateGrid(Grid<char> &gameboard, ifstream &ifs) {
 
     for(int i = 0; i < gameboard.numRows();i++){
         getLine(ifs, temp);
-        int currRow = 0;
-        for(int j = 0; j<temp.length(); j++){
-            gameboard.set(currRow, j, temp[j]);
+        for(int j = 0; j < temp.length(); j++){
+            gameboard.set(i, j, temp[j]);
         }
-        currRow++;
     }
 }
 
