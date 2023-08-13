@@ -105,16 +105,16 @@ int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
     for(int r = row-1;r<=row+1;r++) {
         for(int c = col-1; c<=col+1;c++) {
             if(wrap) {
-                if (isRValid(gameboard, r) & isCValid(gameboard, c) & gameboard[r][c] == 'X') {
+                if (isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[r][c] == 'X') {
                     myNeighbors++;
                 }
-                else if (isRValid(gameboard, r) & !isCValid(gameboard, c) & gameboard[r][0] == 'X') {
+                else if (isRValid(gameboard, r) && !isCValid(gameboard, c) && gameboard[r][0] == 'X') {
                     myNeighbors++;
                 }
-                else if (!isRValid(gameboard, r) & isCValid(gameboard, c) & gameboard[0][c] == 'X') {
+                else if (!isRValid(gameboard, r) && isCValid(gameboard, c) && gameboard[0][c] == 'X') {
                     myNeighbors++;
                 }
-                else if (!isRValid(gameboard, r) & !isCValid(gameboard, c) & gameboard[0][0] == 'X') {
+                else if (!isRValid(gameboard, r) && !isCValid(gameboard, c) && gameboard[0][0] == 'X') {
                     myNeighbors++;
                 }
             }
