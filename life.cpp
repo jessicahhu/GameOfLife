@@ -363,3 +363,15 @@ PROVIDED_TEST("Test simple-edge for one iteration, with wrapping") {
     tick(gameboard, true);
     EXPECT_EQUAL(gameboard, gameboardAfterOne);
 }
+
+
+
+STUDENT_TEST("Test tick function on an empty board") {
+    Grid<char> gameboard(3, 3, '-');
+    
+    Grid<char> expectedAfterTick(3, 3, '-');
+    
+    tick(gameboard, false);
+    EXPECT_EQUAL(gameboard, expectedAfterTick);
+}
+
