@@ -146,9 +146,7 @@ int main() {
     if (runSimpleTests(SELECTED_TESTS)) {
         return 0;
     }
-    if (runSimpleTests(SELECTED_TESTS)) {
-        return 0;
-    }
+    
     string myFunc = "";
     int numFrames = 0;
     string fileName = "";
@@ -157,10 +155,11 @@ int main() {
 
     cout << "Grid input file name?";
     cin >> fileName;
-    Grid<char> gameboard = loadBoard(fileName);
-    ifstream gameboard;
-    openFile(gameboard, "fileName");
+    ifstream ifs;
+    Grid<char> gameboard = loadBoard(ifs);
+    openFile(ifs, "boards/" + fileName);
     gameboard.close();
+
     cout << "Should the simulation wrap around the grid (y/n)?";
     cin >> myWrap;
     if (myWrap == "y") {
