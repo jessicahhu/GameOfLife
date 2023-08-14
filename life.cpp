@@ -141,6 +141,61 @@ void tick(Grid<char> gameboard, bool wrap) {
 }
 
 // You should have more functions here
+int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
+    int numR = gameboard.numRows();
+    int numC = gameboard.numCols();
+
+    int count = 0;
+    for (int r = row - 1; r <= row + 1; r++) {
+        for (int c = col - 1; c <= col + 1; c++) {
+            if (r == row && c == col) {
+                continue;
+            }
+            int neighborR = r;
+            int neighborC = c;
+
+            if (wrap) {
+                neighborR = (r + numR) % numR;
+                neighborC = (c + numC) % numC;
+            }
+
+            if (gameboard[neighborR][neighborC] == 'X') {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+/**
+ * The tick function runs one iteration of the game of life
+ * on gameboard, using wrap to determine if the board should be
+ * wrapped or not
+ *
+ */
+
+void tick(Grid<char> &gameboard, bool wrap) {
+    Grid<char> newGameboard = gameboard;
+
+    for (int row = 0; row < gameboard.numRows(); row++) {
+        for (int col = 0; col < gameboard.numCols(); col++) {
+            int num = countNeighbors(gameboard, row, col, wrap);
+
+            if (gameboard[row][col] == 'X') {
+                if (num < 2 || num > 3) {
+                    newGameboard[row][col] = '-';
+                } else {
+                    newGameboard[row][col] = 'X';
+                }
+            } else {
+                if (num == 3) {
+                    newGameboard[row][col] = 'X';
+                }
+            }
+        }
+    }
+    swap(gameboard, newGameboard);
+}
 
 int main() {
     if (runSimpleTests(SELECTED_TESTS)) {
