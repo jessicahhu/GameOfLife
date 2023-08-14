@@ -1,7 +1,3 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header!
-
 #include <cctype>
 #include <cmath>
 #include <fstream>
@@ -19,13 +15,12 @@
 #include "random.h"
 using namespace std;
 
-/**
+/*
  * The populateGrid function reads lines from the
  * already-open ifstream and populates the already-created
  * gameboard.
  */
 void populateGrid(Grid<char> &gameboard, ifstream &ifs) {
-    // TODO: Your code here
     string temp;
 
     for(int i = 0; i < gameboard.numRows();i++){
@@ -36,17 +31,16 @@ void populateGrid(Grid<char> &gameboard, ifstream &ifs) {
     }
 }
 
-/**
+/*
  * The loadBoard function takes an already-open
  * ifstream and reads in the width and height of
  * the gameboard. Then it creates and populates
- * the gameboard and closes the ifsteram.
+ * the gameboard and closes the ifstream.
  *
  * Return value: A Grid<char> representing the
  * Game of Life starting game board
  */
 Grid<char> loadBoard(ifstream &ifs) {
-    // TODO: Your code here (you will change the return value)
     string rowsStr;
     string colsStr;
 
@@ -63,7 +57,7 @@ Grid<char> loadBoard(ifstream &ifs) {
     return gameboard;
 }
 
-/**
+/*
  * The printBoard function prints the board to the screen
  */
 void printBoard(Grid<char> gameboard) {
@@ -75,14 +69,9 @@ void printBoard(Grid<char> gameboard) {
     }
 }
 
-/**
- * countNeighbors counts the neighbors of a grid squre.
- * '-' is an unpopulated square, and 'X' is a populated square.
- * If wrap is true, then squares that are on edges potentially
- * contribute to the overall count.
- *
- * Returns the neighbor count
- */
+/*
+ * isValid checks if the cell is a valid cell of the gameboard if there is no wrapping
+*/
 bool isValid(int r, int c, Grid<char> gameboard) {
     if(r <= gameboard.numRows() - 1 && c <= gameboard.numCols() - 1) {
         if(r >= 0 && c >= 0)
@@ -91,12 +80,20 @@ bool isValid(int r, int c, Grid<char> gameboard) {
     return false;
 }
 
+/*
+ * countNeighbors counts the neighbors of a grid squre.
+ * '-' is an unpopulated square, and 'X' is a populated square.
+ * If wrap is true, then squares that are on edges potentially
+ * contribute to the overall count.
+ *
+ * Returns the neighbor count
+ */
 int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
     int myNeighbors = 0;
     for(int r = row-1;r<=row+1;r++) {
         for(int c = col-1; c<=col+1;c++) {
             if(wrap) {
-                if (gameboard[r % gameboard.numRows()][c % gameboard.numCols()]) {
+                if (gameboard[(r + gameboard.numRows()) % gameboard.numRows()][ (c + gameboard.numCols()) % gameboard.numCols()] == 'X') {
                     myNeighbors++;
                 }
             }
@@ -113,23 +110,26 @@ int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
     return myNeighbors;
 }
 
-/**
+/*
  * The tick function runs one iteration of the game of life
  * on gameboard, using wrap to determine if the board should be
  * wrapped or not
  *
  */
-void tick(Grid<char> gameboard, bool wrap) {
+void tick(Grid<char> &gameboard, bool wrap) {
     Grid<char> tempboard(gameboard.numRows(), gameboard.numCols());
+    int num = 0;
+
     for (int r = 0; r < gameboard.numRows(); r++) {
         for (int c = 0; c < gameboard.numCols(); c++) {
-            if (countNeighbors(gameboard, r, c, wrap) <= 1) {
+            num = countNeighbors(gameboard, r, c, wrap);
+            if (num <= 1) {
                 tempboard[r][c] = '-';
             }
-            else if (countNeighbors(gameboard, r, c, wrap) == 2) {
+            else if (num == 2) {
                 tempboard[r][c] = gameboard [r][c];
             }
-            else if (countNeighbors(gameboard, r, c, wrap) == 3) {
+            else if (num == 3) {
                 tempboard[r][c] = 'X';
             }
             else {
@@ -140,109 +140,58 @@ void tick(Grid<char> gameboard, bool wrap) {
     gameboard = tempboard;
 }
 
-// You should have more functions here
-int countNeighbors(Grid<char> &gameboard, int row, int col, bool wrap) {
-    int numR = gameboard.numRows();
-    int numC = gameboard.numCols();
-
-    int count = 0;
-    for (int r = row - 1; r <= row + 1; r++) {
-        for (int c = col - 1; c <= col + 1; c++) {
-            if (r == row && c == col) {
-                continue;
-            }
-            int neighborR = r;
-            int neighborC = c;
-
-            if (wrap) {
-                neighborR = (r + numR) % numR;
-                neighborC = (c + numC) % numC;
-            }
-
-            if (gameboard[neighborR][neighborC] == 'X') {
-                count++;
-            }
-        }
-    }
-    return count;
-}
-
-/**
- * The tick function runs one iteration of the game of life
- * on gameboard, using wrap to determine if the board should be
- * wrapped or not
- *
- */
-
-void tick(Grid<char> &gameboard, bool wrap) {
-    Grid<char> newGameboard = gameboard;
-
-    for (int row = 0; row < gameboard.numRows(); row++) {
-        for (int col = 0; col < gameboard.numCols(); col++) {
-            int num = countNeighbors(gameboard, row, col, wrap);
-
-            if (gameboard[row][col] == 'X') {
-                if (num < 2 || num > 3) {
-                    newGameboard[row][col] = '-';
-                } else {
-                    newGameboard[row][col] = 'X';
-                }
-            } else {
-                if (num == 3) {
-                    newGameboard[row][col] = 'X';
-                }
-            }
-        }
-    }
-    swap(gameboard, newGameboard);
-}
-
 int main() {
     if (runSimpleTests(SELECTED_TESTS)) {
         return 0;
     }
-    
     string myFunc = "";
-    int numFrames = 0;
-    string fileName = "";
-    string myWrap;
-    bool wrap;
+    char numFrames;
+    string wrapString;
+    bool wrapBool = false;
 
-    cout << "Grid input file name?";
-    cin >> fileName;
     ifstream ifs;
+    promptUserForFile(ifs, "Grid input file name?");
     Grid<char> gameboard = loadBoard(ifs);
-    openFile(ifs, "boards/" + fileName);
-    gameboard.close();
 
     cout << "Should the simulation wrap around the grid (y/n)?";
-    cin >> myWrap;
-    if (myWrap == "y") {
-        wrap = true;
+    cin >> wrapString;
+
+    while (wrapString != "y" && wrapString != "n") {
+        cout << "Should the simulation wrap around the grid (y/n)?";
+        cin >> wrapString;
     }
-    else if (myWrap == "n") {
-        wrap = false;
+    if (wrapString == "y") {
+        wrapBool = true;
     }
 
     cout << "a)nimate, t)ick, q)uit?";
     cin >> myFunc;
 
+    while (toLowerCase(myFunc) != "a" && toLowerCase(myFunc) != "t" && toLowerCase(myFunc) != "q") {
+        cout << "a)nimate, t)ick, q)uit?";
+        cin >> myFunc;
+    }
     if (toLowerCase(myFunc) == "a") {
         cout << "How many frames:";
         cin >> numFrames;
-        for (int i = 0; i < numFrames; i++) {
-            tick(gameboard, wrap);
+        while(!isdigit(numFrames)) {
+            cout << "How many frames:";
+            cin >> numFrames;
+        }
+        for (int i = 0; i < int(numFrames); i++) {
+            tick(gameboard, wrapBool);
+            printBoard(gameboard);
+            pause(100);
+            clearConsole();
         }
     }
     else if (toLowerCase(myFunc) == "t") {
-        tick(gameboard, wrap);
+        printBoard(gameboard);
+        tick(gameboard, wrapBool);
+        printBoard(gameboard);
     }
     else if (toLowerCase(myFunc) == "q") {
         cout << "Have a nice Life!" << endl;
-    }
-    else {
-        cout << "a)nimate, t)ick, q)uit?";
-        cin >> myFunc;
     }
     return 0;
 }
@@ -365,21 +314,20 @@ PROVIDED_TEST("Test simple-edge for one iteration, with wrapping") {
 }
 
 
-
-STUDENT_TEST("Test tick function on an empty board") {
-    Grid<char> gameboard(3, 3, '-');
-    
-    Grid<char> expectedAfterTick(3, 3, '-');
-    
-    tick(gameboard, false);
-    EXPECT_EQUAL(gameboard, expectedAfterTick);
-}
-
-STUDENT_TEST("Test countNeighbors function on simple.txt with no wrapping"){
+STUDENT_TEST("Test simple.txt for countNeighbors without wrapping") {
     ifstream ifs;
     openFile(ifs, "boards/simple.txt");
     Grid<char> gameboard = loadBoard(ifs);
-    EXPECT_EQUAL(countNeighbors(gameboard, 2, 4, false), 2);
+
+    EXPECT_EQUAL(countNeighbors(gameboard, 2, 1, false), 0);
+}
+
+STUDENT_TEST("Test simple.txt for countNeighbors with wrapping") {
+    ifstream ifs;
+    openFile(ifs, "boards/simple-edge.txt");
+    Grid<char> gameboard = loadBoard(ifs);
+
+    EXPECT_EQUAL(countNeighbors(gameboard, 1, 0, true), 3);
 }
 
 STUDENT_TEST("Test countNeighbors function on simple-edge-after1-wrap.txt "){
@@ -388,4 +336,3 @@ STUDENT_TEST("Test countNeighbors function on simple-edge-after1-wrap.txt "){
     Grid<char> gameboard = loadBoard(ifs);
     EXPECT_EQUAL(countNeighbors(gameboard, 2, 8, true), 8);
 }
-
