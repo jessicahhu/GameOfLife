@@ -146,9 +146,48 @@ int main() {
     if (runSimpleTests(SELECTED_TESTS)) {
         return 0;
     }
-    // TODO: Finish the game of life!
+    if (runSimpleTests(SELECTED_TESTS)) {
+        return 0;
+    }
+    string myFunc = "";
+    int numFrames = 0;
+    string fileName = "";
+    string myWrap;
+    bool wrap;
 
-    cout << "Have a nice Life!" << endl;
+    cout << "Grid input file name?";
+    cin >> fileName;
+    Grid<char> gameboard = loadBoard(fileName);
+
+    cout << "Should the simulation wrap around the grid (y/n)?";
+    cin >> myWrap;
+    if (myWrap == "y") {
+        wrap = true;
+    }
+    else if (myWrap == "n") {
+        wrap = false;
+    }
+
+    cout << "a)nimate, t)ick, q)uit?";
+    cin >> myFunc;
+
+    if (toLowerCase(myFunc) == "a") {
+        cout << "How many frames:";
+        cin >> numFrames;
+        for (int i = 0; i < numFrames; i++) {
+            tick(gameboard, wrap);
+        }
+    }
+    else if (toLowerCase(myFunc) == "t") {
+        tick(gameboard, wrap);
+    }
+    else if (toLowerCase(myFunc) == "q") {
+        cout << "Have a nice Life!" << endl;
+    }
+    else {
+        cout << "a)nimate, t)ick, q)uit?";
+        cin >> myFunc;
+    }
     return 0;
 }
 
