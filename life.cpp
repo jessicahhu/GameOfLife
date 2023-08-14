@@ -375,3 +375,17 @@ STUDENT_TEST("Test tick function on an empty board") {
     EXPECT_EQUAL(gameboard, expectedAfterTick);
 }
 
+STUDENT_TEST("Test countNeighbors function on simple.txt with no wrapping"){
+    ifstream ifs;
+    openFile(ifs, "boards/simple.txt");
+    Grid<char> gameboard = loadBoard(ifs);
+    EXPECT_EQUAL(countNeighbors(gameboard, 2, 4, false), 2);
+}
+
+STUDENT_TEST("Test countNeighbors function on simple-edge-after1-wrap.txt "){
+    ifstream ifs;
+    openFile(ifs, "boards-after-one-iteration/simple-edge-after1-wrap.txt");
+    Grid<char> gameboard = loadBoard(ifs);
+    EXPECT_EQUAL(countNeighbors(gameboard, 2, 8, true), 8);
+}
+
