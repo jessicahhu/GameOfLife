@@ -158,7 +158,9 @@ int main() {
     cout << "Grid input file name?";
     cin >> fileName;
     Grid<char> gameboard = loadBoard(fileName);
-
+    ifstream gameboard;
+    openFile(gameboard, "fileName");
+    gameboard.close();
     cout << "Should the simulation wrap around the grid (y/n)?";
     cin >> myWrap;
     if (myWrap == "y") {
